@@ -16,6 +16,7 @@ CORS(app)
 def create():
   # リクエストの取得
   request_json = request.get_json()
+  has_img = True
   if request_json['logo']:
     logo_base = request_json['logo']
     logo_image = b64decode(logo_base[22:])
@@ -27,11 +28,12 @@ def create():
     logo_image = Image.new('RGBA', (200, 200), (255, 255, 255, 255))
     logo_image_name = str(uuid4()) + '.png'
     logo_image.save(logo_image_name)
+    has_img = False
   name = request_json['name']
   status = request_json['department']
   use_qr = request_json['use_qr']
   qr = request_json['qr']
-  generation_id = create_image(logo_image_name, name, status, use_qr, qr)
+  generation_id = create_image(logo_image_name, name, status, use_qr, qr, has_img)
   if logo_image_name:
     os.remove(logo_image_name)
   with open(f'output_{generation_id}.png', 'rb') as f:
