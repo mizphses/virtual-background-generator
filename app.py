@@ -8,11 +8,11 @@ from qrcode import QRCode, constants
 
 from create import create_image
 
-app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
-CORS(app)
+application = Flask(__name__)
+application.config['JSON_AS_ASCII'] = False
+CORS(application)
 
-@app.route('/create', methods=['POST'])
+@application.route('/create', methods=['POST'])
 def create():
   # リクエストの取得
   request_json = request.get_json()
@@ -41,4 +41,4 @@ def create():
   os.remove(f'output_{generation_id}.png')
   return output_image
 if __name__ == '__main__':
-  app.run(debug=True, port=5001)
+  application.run()
